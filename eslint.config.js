@@ -7,7 +7,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import prettierPlugin from 'eslint-plugin-prettier';
 import * as tseslint from 'typescript-eslint';
-import parser from '@typescript-eslint/parser'; // ✅ Import parser as an object
+import parser from '@typescript-eslint/parser';
 
 export default tseslint.config(
   {
