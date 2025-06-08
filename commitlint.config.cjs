@@ -1,12 +1,17 @@
-const headerStartCapital = ({ raw }) => {
+const headerStartCapital = ({ header }) => {
+  // Extract the subject after type and colon
+  const subject = header.split(':')[1]?.trim() || '';
   return [
-    /^[A-Z]/.test(raw),
-    'Commit message must start with a capital letter',
+    /^[A-Z]/.test(subject),
+    'Subject must start with a capital letter',
   ];
 };
 
 const headerEndPeriod = ({ header }) => {
-  return [/\.$/.test(header), 'Commit message must end with a period'];
+  return [
+    /\.$/.test(header),
+    'Commit message must end with a period',
+  ];
 };
 
 module.exports = {
