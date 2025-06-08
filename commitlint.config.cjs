@@ -1,21 +1,6 @@
-const headerStartCapital = ({ header }) => {
-  // Extract the subject after type and colon
-  const subject = header.split(':')[1]?.trim() || '';
-  return [
-    /^[A-Z]/.test(subject),
-    'Subject must start with a capital letter',
-  ];
-};
-
-const headerEndPeriod = ({ header }) => {
-  return [
-    /\.$/.test(header),
-    'Commit message must end with a period',
-  ];
-};
-
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  // extends: ['@commitlint/config-conventional'],
+  extends: [],
   rules: {
     'header-min-length': [2, 'always', 20],
     'header-case-start-capital': [2, 'always'],
@@ -24,8 +9,15 @@ module.exports = {
   plugins: [
     {
       rules: {
-        'header-case-start-capital': headerStartCapital,
-        'header-end-period': headerEndPeriod,
+        'header-case-start-capital': ({ raw }) => {
+          return [
+            /^[A-Z]/.test(raw),
+            'Commit message must start with a capital letter',
+          ];
+        },
+        'header-end-period': ({ header }) => {
+          return [/\.$/.test(header), 'Commit message must end with a period'];
+        },
       },
     },
   ],
