@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build, Push Docker Image and Deploy to GitHub Pages
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-push:
+  build-push-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,11 +24,17 @@ jobs:
       - name: Build App
         run: npm run build
 
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist    # or ./build depending on your build output folder
+
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker Image
-        run: docker build -t sanjeev1209/cicd-react:tagname .
+        run: docker build -t sanjeev1209/cicd-react:latest .
 
       - name: Push Docker Image
-        run: docker push sanjeev1209/cicd-react:tagname
+        run: docker push sanjeev1209/cicd-react:latest
